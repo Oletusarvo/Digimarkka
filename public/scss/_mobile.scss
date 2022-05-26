@@ -1,0 +1,46 @@
+@include media_s{
+    header{
+        font-size: 1.5rem;
+        #home-link{
+            visibility: hidden;
+        }
+
+        #menu-button{
+            visibility: visible;
+        }
+    }
+
+    .content{
+        
+        width: 100vw;
+        display: flex;
+        flex-flow: column;
+        gap: 5px;
+
+        justify-content: center;
+        align-items: center;
+    }
+
+    #account-content{
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr 0.3fr;
+
+        .window{
+            font-size : 1.5rem;
+        }
+    }
+
+    #payment-content{
+        display: grid;
+        grid-template-columns : 1fr;
+        grid-template-rows: 0.3fr 1fr;
+    }
+
+    form{
+        font-size: 1.5rem;
+        input, select, button{
+            font-size: 1.5rem;
+        }
+    }
+}

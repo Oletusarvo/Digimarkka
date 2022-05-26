@@ -1,0 +1,14 @@
+#wallets-content{
+    .window{
+        height: 100%;
+    }
+    table{
+        width: 100%;
+    }
+}
+
+#delete-wallet-content{
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+}

@@ -1,0 +1,21 @@
+<table>
+    <thead>
+        <tr>
+            <td>Lähettäjä</td>
+            <td class="align-right">Vastaanottaja</td>
+            <td class="align-right">Määrä</td>
+            <td class="align-right">Päivämäärä</td>
+        </tr>
+    </thead>
+
+    <tbody id="events-table">
+        <% events.forEach(event => { %>
+            <tr>
+                <td ><%=event.sender%></td>
+                <td class="align-right"><%=event.receiver%></td>
+                <td class="align-right"><%=event.amount%>mk</td>
+                <td class="align-right"><%=event.timestamp%></td>
+            </tr>
+        <%})%>
+    </tbody>
+</table>

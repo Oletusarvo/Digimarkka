@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <%-include("../partials/head.ejs")%>
+
+    <body>
+
+        <%-include("../partials/opacity.ejs")%>
+        <header>
+            <%- include("../partials/home-link.ejs")%>
+            <div id="header-buttons" class="header-sub-container">
+                <a href="/account">Takaisin</a>
+            </div>
+        </header>
+
+        <div class="content" id="delete-wallet-content">
+            <div class="window">
+                <h1>Poista Maksuosoite</h1>
+                <div id="form">
+                    <form method="POST" action="/wallets/delete" enctype="application/json">
+                        <label for="address">Osoitteesta:</label>
+                        <select name="address">
+                            <% wallets.forEach(wallet => { %>
+                                <option value="<%=wallet.address%>">(<%= wallet.balance %>mk) <%=wallet.title%></option>
+                            <% }) %>
+                        </select>
+                        <button type="submit">Poista</button>
+                    </form>
+                </div>
+                
+            </div>
+        </div>
+
+        <%-include("../partials/footer.ejs")%>
+    </body>
+</html>

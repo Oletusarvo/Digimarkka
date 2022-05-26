@@ -1,0 +1,168 @@
+$primary-color : #1ec73d;
+$button-color: rgb(0, 208, 0);
+$secondary-color : rgb(37, 37, 37);
+$text-color: rgb(92, 92, 92);
+
+$header-button-color : white;
+$button-text-color: $secondary-color;
+
+$button-border-radius: 10px;
+$default-gap: 1rem;
+$content-width: 600px;
+$ring-size : 600px;
+$ring-color : white;
+
+$button-lighten-amount: 10;
+$button-font-size: 1.5rem;
+
+*{
+    box-sizing: border-box;
+
+}
+
+body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: url('../img/background.bmp');
+    background-size: cover;
+    background-attachment: fixed;
+
+    color: white;
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+
+    header{
+        display: flex;
+        flex-flow: row;
+
+        align-items: center;
+        position: fixed;
+        top: 0;
+        height: 100px;
+        background: $secondary-color;
+        width: 100vw;
+        padding: 20px;
+
+        div{
+            flex-basis: calc(100% / 2);
+        }
+
+        .header-sub-container{
+            display: inherit;
+            gap: 30px;
+        }
+
+        #header-buttons{
+            justify-content: flex-end;
+        }
+
+        a{
+            text-decoration: none;
+            color: white;
+        }
+
+        .menu-button{
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            gap: 5px;
+
+            .button-line{
+                background: white;
+                height: 10px;
+                width: 1rem;
+            }
+
+            visibility: hidden;
+        }
+    }
+
+    footer{
+        text-align: center;
+        position: fixed;
+        bottom: 0;
+        height: 20px;
+        width: 100vw;
+        background: $secondary-color;
+
+    }
+
+    .content{
+        padding: 120px 20px 40px 20px;
+        width: 100vw;
+
+        .error-message{
+            color: red;
+        }
+
+        textarea{
+            resize: none;
+        }
+    }
+
+    .background-opacity{
+        position: fixed;
+        top: 0;
+        background: linear-gradient(black, $primary-color);
+        opacity: 0.1;
+        z-index: -1;
+        width: 100vw;
+        height: 100vh;
+    }
+
+    .window{
+        background: rgba($secondary-color, 0.8);
+        box-shadow : 5px;
+        padding: 5px;
+
+        
+
+        table{
+            .align-right{
+                text-align: right;
+            }
+
+            thead{
+                font-weight: bold;
+            }
+
+            tbody, thead{
+                gap: 0;
+            }
+        }
+
+        form{
+
+            display: flex;
+            flex-flow: column;
+            gap: 5px;
+
+            input{
+                .border-red{
+                    border-color: red;
+                    border-width: 1px;
+                }
+            }
+
+            .input-error{
+                color: red;
+            }
+
+            .hidden{
+                visibility : hidden;
+            }
+        }
+
+        a{
+            color: white;
+        }
+    }
+}
+
+@mixin media_s{
+    @media screen and (max-width : 1520px){
+        @content;
+    }
+}

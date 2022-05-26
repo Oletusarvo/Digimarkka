@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <%- include("../partials/head.ejs") %>
+
+    <body>
+        <%- include("../partials/opacity.ejs")%>
+
+        <header>
+            <%- include("../partials/home-link.ejs") %>
+
+            <%- include("../partials/header-back-button.ejs") %>
+            
+        </header>
+
+        <div class="content" id="login-content">
+            <div class="window">
+                <h1>Kirjaudu Sisään</h1>
+                <div id="form-and-image">
+                    <form method="POST" action="/login" enctype="application/json">
+                        <label for="username">Käyttäjätunnus:</label>
+                        <input name="username"></input>
+                        <div class="input-error" id="username-error"><%= locals.usernameError %></div>
+
+                        <label for="password">Salasana:</label>
+                        <input name="password" type="password"></input>
+                        <div class="input-error" id="password-error"><%= locals.passwordError %></div>
+                        <button type="submit">Lähetä</button>
+                        
+                    </form>
+                </div>
+            
+                <div id="links">
+                    <nav>
+                        <a href="/">Unohditko salasanasi?</a>
+                        <a href="/register">Ei tunnusta? Luo tili.</a>
+                    </nav>
+                </div>
+
+                <script>
+                    const form = document.querySelector('form');
+                    form.addEventListener('submit', async (e) => {
+                        e.preventDefault();
+
+                        try{
+                            let res = await fetch('/login', {
+                                method : 'POST',
+
+                                body : JSON.stringify({
+                                    username : form.username.value,
+                                    password : form.password.value
+                                }),
+
+                                headers : {
+                                    'Content-Type' : 'application/json'
+                                }
+                            });
+
+                            if(res.status == 200){
+                                document.cookie = res.headers['cookies'];
+                                location.assign('/account');
+                            }
+                            
+
+                        }catch(error){
+                            console.log(error);
+                        }
+                    })
+                </script>
+            </div>
+        </div>
+
+        <%- include("../partials/footer.ejs")%>
+    </body>
+</html>

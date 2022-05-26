@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <%- include("partials/head.ejs") %>
+
+    <body>
+
+        <%- include("partials/opacity.ejs") %>
+
+        <header>
+            <%- include("partials/menu-button.ejs") %>
+            <%- include("partials/home-link.ejs") %>
+
+            <div id="header-buttons" class="header-sub-container">
+                <% if(locals.loggedIn) { %>
+                    <a href="/account">Oma Tili</a>
+                    <a href="/logout">Kirjaudu Ulos</a>
+                <% } else { %>
+                    <a href="/register">Luo Tili</a>
+                    <a href="/login">Kirjaudu Sisään</a>
+                <% } %>
+                
+                
+            </div>
+        </header>
+        
+        <div class="content" id="index-content">
+            <h1>Täällä ei velkaa oteta. Mut otetaan onneks.</h1>
+        </div>
+
+        <%- include("partials/footer.ejs")%>
+    </body>
+
+
+</html>

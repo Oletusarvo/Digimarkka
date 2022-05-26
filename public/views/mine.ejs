@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <header>
+            <%- include("partials/home-link") %>
+
+            <div class="header-sub-container" id="header-buttons">
+                <a href="/account">Takaisin</a>
+            </div>
+        </header>
+
+        <div class="content" id="mine-content">
+            <div class="window">
+                <form>
+                    <button type="submit" id="mine-button">Louhi</button>
+                </form>
+                
+            </div>
+        </div>
+
+        <script src="/crypto-js/crypto-js.js"></script>
+        <script src="/blockchain/blockchain_s.js"></script>
+
+        <script>
+            const f = document.querySelector('form');
+            f.addEventListener('submit', async e => {
+                e.preventDefault();
+                fetch('/mine/start', {
+                    method : 'GET',
+                    headers : {
+                        'Content-Type' : 'application/json'
+                    }
+                }).then(response => {
+                    if(!response.ok){
+                        throw new Error(response.status);
+                    }
+
+                    return response.json();
+                }).then(json => {
+                    let txs = json;
+                    console.log('Mining...');
+                });
+            });
+        </script>
+    </body>
+</html>

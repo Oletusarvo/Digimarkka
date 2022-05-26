@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <%- include ("../partials/head") %>
+    <header>
+        <%- include("../partials/home-link")%>
+        <div id="header-buttons" class="header-sub-container">
+            <a href="/account">Takaisin</a>
+        </div>
+    </header>
+
+    <body>
+        <div class="content" id="new-wallet-content">
+            <div class="window">
+                <h1>Uusi maksuosoite</h1>
+                <form>
+                    <label for="title">Osoitteen nimi:</label>
+                    <input name="title" placeholder="Anna osoitteelle nimi" required="true">
+                    <button type="submit">Luo</button>
+                </form>
+            </div>
+            
+            <script>
+                const form = document.querySelector('form');
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    const res = await fetch('/wallets/new', {
+                        method: 'POST',
+                        body : JSON.stringify({
+                            title : form.title.value
+                        }),
+
+                        headers : {
+                            'Content-Type' : 'application/json'
+                        }
+                    });
+
+                    if(res.status == 200){
+                        location.assign('/account');
+                    }
+                });
+
+            </script>
+        </div>
+    </body>
+
+    <%- include ("../partials/footer") %>
+</html>

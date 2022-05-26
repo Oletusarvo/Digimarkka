@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <%-include("../partials/head.ejs")%>
+
+    <body>
+
+        <%-include("../partials/opacity.ejs")%>
+        <header>
+            <%- include("../partials/home-link.ejs")%>
+            <div id="header-buttons" class="header-sub-container">
+                <a href="/account">Takaisin</a>
+            </div>
+        </header>
+
+        <div class="content" id="payment-internal-content">
+            <div class="window">
+                <h1>Oma Tilisiirto</h1>
+                <div id="form">
+                    <form method="POST" action="/payment/internal" enctype="application/json">
+                        <label for="sender">Osoitteesta:</label>
+                        <select name="sender">
+                            <% wallets.forEach(wallet => { %>
+                                <option value="<%=wallet.address%>">(<%= wallet.balance %>mk) <%=wallet.title%></option>
+                            <% }) %>
+                        </select>
+
+                        <label for="receiver">Osoitteeseen:</label>
+                        <select name="receiver">
+                            <% wallets.forEach(wallet => { %>
+                                <option value="<%=wallet.address%>">(<%= wallet.balance %>mk) <%=wallet.title%></option>
+                            <% }) %>
+                        </select>
+    
+                        <label for="amount">Määrä:</label>
+                        <input name="amount" required="true" placeholder="Maksun määrä" type="number" step="0.01" min="0.01"/>
+    
+                        <button type="submit">Lähetä</button>
+                    </form>
+                </div>
+                
+            </div>
+        </div>
+
+        <%-include("../partials/footer.ejs")%>
+    </body>
+</html>

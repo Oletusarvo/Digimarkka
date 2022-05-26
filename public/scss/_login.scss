@@ -1,0 +1,30 @@
+#login-content{
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+
+    .window{
+        display: flex;
+        flex-flow: column;
+        gap: 10px;
+
+        h1{
+            align-self: center;
+        }
+
+        form{
+            button, input, select{
+                width: 100%;
+            }
+
+            margin-bottom: 40px;
+        }
+
+        nav{
+            display: flex;
+            flex-flow: column;
+            align-self: center;
+        }
+    }
+    
+}

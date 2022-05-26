@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <%-include("../partials/head.ejs")%>
+
+    <body>
+
+        <%-include("../partials/opacity.ejs")%>
+        <header>
+            <%- include("../partials/home-link.ejs")%>
+            <div id="header-buttons" class="header-sub-container">
+                <a href="/account">Takaisin</a>
+            </div>
+        </header>
+
+        <div class="content" id="payment-content">
+            <div class="window">
+                
+                <div id="form">
+                    <h1>Luo uusi maksu</h1>
+                    <form>
+                        <label for="sender">Osoitteesta:</label>
+                        <select name="sender">
+                            <% myWallets.forEach(wallet => { %>
+                                <option value="<%=wallet.address%>">(<%= wallet.balance %>mk) <%=wallet.title%></option>
+                            <% }) %>
+                        </select>
+
+                        <label for="receiver">Osoitteeseen:</label>
+                        <input name="receiver" required="true" placeholder="Vastaanottajan osoite">
+    
+                        <label for="amount">Määrä:</label>
+                        <input name="amount" required="true" placeholder="Maksun määrä" type="number" step="0.01" min="0.01"/>
+                        
+                        <label for="message">Viesti:</label>
+                        <textarea cols="20" rows="2" name="message" placeholder="Viesti" maxlength="100"></textarea>
+                        
+                        <label for="password">Salasana:</label>
+                        <input type="password" name="password" required="true" placeholder="Anna salasanasi">
+
+                        <button type="submit">Lähetä</button>
+                    </form>
+
+                    <div class="error-message"></div>
+                </div>
+
+                <script>
+                    
+                    const form = document.querySelector('form');
+                    form.addEventListener('submit', e => {
+                        e.preventDefault();
+                        const tx = {
+                            sender : form.sender.value,
+                            receiver : form.receiver.value,
+                            amount : form.amount.value,
+                            password : form.password.value
+                        };
+
+                        fetch('/payment', {
+                            method : 'POST',
+                            body : JSON.stringify(tx),
+                            headers : {
+                                'Content-Type' : 'application/json'
+                            }
+                        })
+                        .then(response => {
+                            if(!response.ok){
+                                throw new Error(response.status);
+                            }
+
+                            
+                            return response.json();
+                        })
+                        .then(json => {
+
+                            if(json.message == 'OK'){
+                                location.assign('/account');
+                            }
+                            else{
+                                const err = json.message
+                                document.querySelector('.error-message').innerHTML = err;
+                            }
+                        });
+                    })
+
+                    
+                    
+                </script>
+            </div>
+
+            <%- include("../partials/wallets-table") %>
+        </div>
+
+        <%-include("../partials/footer.ejs")%>
+    </body>
+</html>

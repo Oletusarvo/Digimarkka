@@ -1,0 +1,31 @@
+#register-content{
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+
+    .window{
+        display: flex;
+        flex-flow: column;
+        gap: 10px;
+        width: 20vw;
+
+        h1{
+            align-self: center;
+        }
+
+        form{
+            display: flex;
+            flex-flow: column;
+            gap: 5px;
+            
+            button, input, select{
+                width: 100%;
+            }
+        }
+
+        nav{
+            align-self: center;
+        }
+    }
+    
+}

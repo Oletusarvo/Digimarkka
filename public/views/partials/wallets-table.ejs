@@ -1,0 +1,28 @@
+<div class="window" id="wallets-table-window">
+    <strong>Käyttäjien maksuosoitteet:</strong>
+    <form id="search-form" action="/payment" method="GET">
+        <input name="addressOwner" id="search-input" placeholder="Etsi">
+        <button type="submit">Etsi</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <td>Omistaja</td>
+                <td class="align-right">Tunnus</td>
+                <td class="align-right">Maksuosoite</td>
+                
+            </tr>
+        </thead>
+
+        <tbody>
+            <% wallets.forEach(wallet => { %>
+                <tr>
+                    <td><%=wallet.username%></td>
+                    <td class="align-right"><%=wallet.title%></td>
+                    <td class="align-right"><%=wallet.address%></td>
+                </tr>
+            <%})%>
+        </tbody>
+    </table>
+</div>
