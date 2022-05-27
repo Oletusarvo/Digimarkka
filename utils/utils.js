@@ -17,22 +17,25 @@ module.exports.generateAccessToken = function(user){
     return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn : "20m"});
 }
 
-module.exports.generateWalletEvents = async function(wallets){
-    let events = [];
-    for(let wallet of wallets){
-        const txs = await database.getTransactions(wallet.address);
-        txs.forEach(tx => {
-            tx.amount = tx.amount.toLocaleString('fi-FI');
-            if(tx.sender === wallet.address){
-                tx.amount = '-' + tx.amount;
-            }
-            else if(tx.receiver === wallet.address){
-                tx.amount = '+' + tx.amount;
-            }
-        });
-
-        events = events.concat(txs);
+module.exports.formatEvent = function(tx, wallet){
+    tx.amount = tx.amount.toLocaleString('fi-FI');
+    if(tx.sender === wallet.address){
+        tx.amount = '-' + tx.amount;
     }
+    else if(tx.receiver === wallet.address){
+        tx.amount = '+' + tx.amount;
+    }
+
+    return tx;
+}
+
+module.exports.generateWalletEvents = async function(wallet){
+    let events = [];
+    const txs = await database.getTransactions(wallet.address);
+    
+    txs.forEach(tx => {
+        events.push(module.exports.formatEvent(tx, wallet));
+    });
 
     return events;
 }

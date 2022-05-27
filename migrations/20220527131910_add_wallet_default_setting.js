@@ -3,9 +3,9 @@
  * @returns { Promise<void> }
  */
 exports.up = function(knex) {
-  return knex.schema.table('transactions', table => {
-      table.string('message', 100);
-  })
+  return knex.schema.table('wallets', table => {
+      table.boolean('default').defaultTo(false);
+  });
 };
 
 /**
@@ -13,7 +13,7 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-  return knex.schema.table('transactions', table => {
-    table.dropColumn('message');
-  })
+  return knex.schema.table('wallets', table => {
+      table.dropColumn('default');
+  });
 };

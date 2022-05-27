@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const requireAuth = require('../middleware/requireAuth').requireAuth;
+const checkAuthorization = require('../middleware/checkAuthorization').checkAuthorization;
 const hashTransaction = require('../middleware/hashTransaction').hashTransaction;
 const verifyPassword = require('../middleware/verifyPassword').verifyPassword;
 const verifyTransaction = require('../middleware/verifyTransaction').verifyTransaction;
@@ -12,7 +12,7 @@ const utils = require('../utils/utils');
 const jwt = require('jsonwebtoken');
 const { signTransaction } = require('../middleware/signTransaction');
 
-router.get('/', requireAuth, async (req, res) => {
+router.get('/', checkAuthorization, async (req, res) => {
     const addressOwner = req.query.addressOwner;
 
     const wallets = addressOwner ? await database.getWallets(addressOwner) : await database.getWallets();
@@ -28,7 +28,14 @@ router.get('/', requireAuth, async (req, res) => {
     });
 });
 
-router.get('/internal', requireAuth, async (req, res) => {
+router.post('/', checkAuthorization, verifyPassword, formatTransactionAmount, verifyTransaction, async (req, res) => {
+    await database.addTransaction(req.tx);
+    res.json({
+        message : 'OK'
+    });
+});
+
+router.get('/internal', checkAuthorization, async (req, res) => {
     const myWallets = await database.getWallets(req.user.username);
     for(let wallet of myWallets){
         wallet.balance = (await utils.calculateWalletBalance(wallet.address)).toLocaleString('fi-FI');
@@ -39,23 +46,23 @@ router.get('/internal', requireAuth, async (req, res) => {
     });
 });
 
-router.post('/internal', requireAuth, formatTransactionAmount, verifyTransaction, signTransaction, async (req, res) => {
+router.post('/internal', checkAuthorization, formatTransactionAmount, verifyTransaction, signTransaction, async (req, res) => {
+    const senderWallet = await database.getWallet(req.body.sender);
+    const receiverWallet = await database.getWallet(req.body.receiver);
+
     const tx = {
         sender : req.body.sender,
+        senderTitle : senderWallet.title,
         receiver : req.body.receiver,
+        receiverTitle : receiverWallet.title,
         amount : req.body.amount,
-        hash : req.hash
+        message : req.body.message
     };
 
     await database.addTransaction(tx);
     res.redirect('/account');
 });
 
-router.post('/', requireAuth, verifyPassword, formatTransactionAmount, verifyTransaction, async (req, res) => {
-    await database.addTransaction(req.tx);
-    res.json({
-        message : 'OK'
-    });
-});
+
 
 module.exports = router;

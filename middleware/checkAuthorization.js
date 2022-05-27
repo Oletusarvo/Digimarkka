@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv').config();
 
-module.exports.requireAuth = (req, res, next) => {
+module.exports.checkAuthorization = (req, res, next) => {
     //Check the header for the auth-key
     const token = req.cookies && req.cookies.authorization;
     

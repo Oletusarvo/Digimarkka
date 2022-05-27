@@ -4,6 +4,7 @@
             <td>Lähettäjä</td>
             <td class="align-right">Vastaanottaja</td>
             <td class="align-right">Määrä</td>
+            <td class="align-right">Viesti</td>
             <td class="align-right">Päivämäärä</td>
         </tr>
     </thead>
@@ -11,9 +12,10 @@
     <tbody id="events-table">
         <% events.forEach(event => { %>
             <tr>
-                <td ><%=event.sender%></td>
-                <td class="align-right"><%=event.receiver%></td>
+                <td ><%=event.sender_title%></td>
+                <td class="align-right"><%=event.receiver_title%></td>
                 <td class="align-right"><%=event.amount%>mk</td>
+                <td class="align-right"><%=event.message%></td>
                 <td class="align-right"><%=event.timestamp%></td>
             </tr>
         <%})%>

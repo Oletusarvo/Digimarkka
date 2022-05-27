@@ -52,8 +52,11 @@
                             sender : form.sender.value,
                             receiver : form.receiver.value,
                             amount : form.amount.value,
-                            password : form.password.value
+                            password : form.password.value,
+                            message : form.message.value
                         };
+
+                        //console.log(tx);
 
                         fetch('/payment', {
                             method : 'POST',

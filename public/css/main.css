@@ -70,6 +70,8 @@ body {
     padding: 5px; }
     body .window table .align-right {
       text-align: right; }
+    body .window table .default-wallet {
+      color: yellow; }
     body .window table thead {
       font-weight: bold; }
     body .window table tbody, body .window table thead {

@@ -7,8 +7,6 @@ module.exports.verifyTransaction = async (req, res, next) => {
     const receiverWallet = await database.getWallet(req.body.receiver);
     const senderBalance = await utils.calculateWalletBalance(senderWallet.address);
 
-    const msg = '<h1>Maksu Hylätty!</h1>';
-
     if(!senderWallet || !receiverWallet){
         res.json({
             message : 'Vastaanottajaa ei ole tai se on poistettu.'
@@ -25,8 +23,8 @@ module.exports.verifyTransaction = async (req, res, next) => {
         });
     }
     else{
-        const {sender, receiver, amount, message} = req.body;
-        req.tx = {sender, receiver, amount, message, timestamp : new Date().toLocaleString('fi-FI')};
+        const {sender, receiver, amount,  message} = req.body;
+        req.tx = {sender, senderTitle : senderWallet.username,  receiver, receiverTitle : receiverWallet.title, amount, message, timestamp : new Date().toLocaleString('fi-FI')};
         next();
     }
 }

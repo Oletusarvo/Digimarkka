@@ -1,35 +1,38 @@
 const express = require('express');
 const router = express.Router();
 const database = require('../models/db');
-const requireAuth = require('../middleware/requireAuth').requireAuth;
+const checkAuthorization = require('../middleware/checkAuthorization').checkAuthorization;
 const generateAddress = require('../utils/utils').generateAddress;
 
-router.get('/', requireAuth, async (req, res) => {
+router.get('/', checkAuthorization, async (req, res) => {
     res.render('wallets/wallets.ejs', {
         title : 'Maksuosoitteet',
         wallets : await database.getWallets() || []
     });
 });
 
-router.get('/new', requireAuth, async (req, res) => {
+router.get('/new', checkAuthorization, async (req, res) => {
     res.render('wallets/new.ejs', {
         title : 'Uusi maksuosoite'
     });
 });
 
-router.get('/delete', requireAuth, async (req, res) => {
+router.get('/delete', checkAuthorization, async (req, res) => {
     res.render('wallets/delete.ejs', {
         title : 'Poista Maksuosoite',
         wallets : await database.getWallets(req.user.username) || []
     });
 });
 
-router.post('/delete', requireAuth, async (req, res) => {
+router.post('/delete', checkAuthorization, async (req, res) => {
     const wallet = await database.getWallet(req.body.address);
 
     if(wallet){
         if(wallet.balance > 0){
             res.status(401).send("Maksuosoitteen saldo tulee olla 0mk ennen poistoa!");
+        }
+        else if(wallet.default){
+            res.status(401).send('Oletusmaksuosoitetta ei voi poistaa!');
         }
         else{
             await database.deleteWallet(req.body.address);
@@ -41,14 +44,16 @@ router.post('/delete', requireAuth, async (req, res) => {
     }
 }); 
 
-router.post('/new', requireAuth, async (req, res) => {
+router.post('/new', checkAuthorization, async (req, res) => {
     const user = req.user;
+    //A new wallet will be set as default if the user does not have previous wallets.
+    const isDefault = (await database.getWallets(user.username)).length == 0 ? true : false;
 
     await database.addWallet({
         title : req.body.title,
         address : generateAddress(64),
         username : user.username,
-        balance : 0
+        default : isDefault
     });
 
     res.status(200).send();

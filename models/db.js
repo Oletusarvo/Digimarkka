@@ -16,7 +16,8 @@ module.exports.addWallet = async function(wallet){
     return await db('wallets').insert({
         username : wallet.username,
         address : wallet.address,
-        title : wallet.title
+        title : wallet.title,
+        default : wallet.default
     }, ['address']);
 }
 
@@ -26,7 +27,9 @@ module.exports.addTransaction = async function(tx){
         receiver : tx.receiver,
         amount : tx.amount,
         timestamp : tx.timestamp,
-        message : tx.message
+        message : tx.message,
+        receiver_title : tx.receiverTitle,
+        sender_title : tx.senderTitle
     });
 }
 
@@ -65,6 +68,10 @@ module.exports.getWallets = async function(username = undefined){
 
 module.exports.getWallet = async function(address){
     return await db('wallets').where({address}).first();
+}
+
+module.exports.getDefaultWallet = async function(username){
+    return db('wallets').where({default : true}).first();
 }
 
 module.exports.deleteWallet = async function(address){

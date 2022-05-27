@@ -4,9 +4,9 @@ const database = require('../models/db');
 const bcrypt = require('bcrypt');
 const utils = require('../utils/utils');
 const jwt = require('jsonwebtoken');
-const requireAuth = require('../middleware/requireAuth').requireAuth;
+const checkAuthorization = require('../middleware/checkAuthorization').checkAuthorization;
 
-router.get('/', requireAuth, async (req, res) => {
+router.get('/', checkAuthorization, async (req, res) => {
     const {username} = req.user;
 
     const user = await database.getUser(username);
@@ -14,20 +14,37 @@ router.get('/', requireAuth, async (req, res) => {
         return res.sendStatus(404);
     }
 
-
     const wallets = await database.getWallets(username);
     for(let wallet of wallets){
         wallet.balance = (await utils.calculateWalletBalance(wallet.address)).toLocaleString('fi-FI');
     }    
 
-    const events = await utils.generateWalletEvents(wallets);
+    //Generate wallet events.
+    let events = [];
+    const address = req.query.address;
+
+    if(typeof address === 'string' && address != ''){
+        const wallet = await database.getWallet(address);
+        events = await utils.generateWalletEvents(wallet);
+    }
+    else{
+        for(let wallet of wallets){
+            events = events.concat(await utils.generateWalletEvents(wallet));
+        }
+    }
     
-    res.render('account.ejs', {
+    res.render('account/account.ejs', {
         title: 'Tili',
         username : username,
         wallets : wallets || [],
         events : events || []
 
+    });
+});
+
+router.get('/delete', checkAuthorization, async (req, res) => {
+    res.render('account/delete.ejs', {
+        title : 'Poista Tili'
     });
 });
 

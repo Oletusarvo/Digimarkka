@@ -4,7 +4,8 @@
  */
 exports.up = function(knex) {
   return knex.schema.table('transactions', table => {
-      table.string('message', 100);
+      table.string('sender_title');
+      table.string('receiver_title');
   })
 };
 
@@ -14,6 +15,6 @@ exports.up = function(knex) {
  */
 exports.down = function(knex) {
   return knex.schema.table('transactions', table => {
-    table.dropColumn('message');
-  })
+      table.dropColumn('sender_title').dropColumn('receiver_title');
+  });
 };

@@ -6,6 +6,8 @@ module.exports.verifyPassword = async (req, res, next) => {
         next();
     }
     else{
-        res.status(401).send("Väärä salasana!");
+        res.json({
+            message : 'Väärä salasana!'
+        });
     }
 }

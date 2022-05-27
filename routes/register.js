@@ -39,8 +39,17 @@ router.post('/', async (req, res) => {
             phone : req.body.phone,
             password : await bcrypt.hash(req.body.password, 10)
         }
+
+        //Generate default wallet
+        const wallet = {
+            address : generateAddress(64),
+            title : 'Oletus',
+            username : user.username,
+            default : true
+        };
     
         await database.addUser(user);
+        await database.addWallet(wallet);
         res.redirect('/');
     }
     catch(err){

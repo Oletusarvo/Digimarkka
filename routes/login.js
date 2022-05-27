@@ -37,17 +37,17 @@ router.post('/', async (req, res) =>{
 
             if(err){
                 console.log(err);
-                return res.status(500).send('Something went wrong!');
+                return res.status(500).send('Jotain meni pieleen!');
             }
 
             res.cookie('authorization', token, {maxAge : 1000 * 60 * 60, secure : true, httpOnly : true});
-            res.send();
+            res.status(200).send();
         });
     }
     else{
-        res.status(401).render('login/login', {
+        res.render('login/login', {
             passwordError : 'Väärä salasana!'
-        })
+        });
     }
 });
 
