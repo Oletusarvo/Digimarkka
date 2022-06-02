@@ -18,7 +18,7 @@ app.listen(PORT, () => console.log(`Listening on port ${PORT}...`));
 
 const genesisDate = new Date('2022-05-01');
 const mintName = 'MINT';
-const payDay = 27;
+const payDay = 1;
 let hasMinted;
 
 function generateNextPayDate(){
@@ -44,12 +44,9 @@ database.getTransactions().then(txs => {
     
     hasMinted = minted.length != 0;
 
-    const currentYear = currentDate.getFullYear();
-    const currentMonth = currentDate.getMonth();
-
-    //If coins have been minted this month, the next pay date is the first of next month. Otherwise mint now.
     let nextPayDay = !hasMinted ? currentDate : generateNextPayDate();
-    
+    console.log(`Next payday: ${nextPayDay.toLocaleString('fi-FI')}`);
+
     const genesisMint = 100;
     const prec = 100; //Number of zeroes determines decimal precision.
 
@@ -77,15 +74,13 @@ database.getTransactions().then(txs => {
                 await database.addTransaction(tx);
             }
 
-
             hasMinted = true;
             nextPayDay = generateNextPayDate();
+            console.log(`Coins minted! Next payday: ${nextPayDay.toLocaleString('fi-FI')}`);
         }
-    }, 10000);
+
+    }, 60000);
 });
-
-
-
 
 app.get('/', async (req, res) => {
     const token = req.cookies && req.cookies.authorization;

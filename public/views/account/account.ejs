@@ -15,17 +15,27 @@
 
         <div class="content" id="account-content">
             <div class="window">
-                <span><strong>Maksuosoitteet: </strong> <%=username%> </span>
+                <div class="window-header">
+                    <strong>Maksuosoitteet: </strong> <%=username%> 
+                </div>
                 <%- include("../partials/wallet-table.ejs") %>
             </div>
 
             <div class="window">
-                <span><strong>Tilitapahtumat: </strong>
-                <select id="address-selector">
-                    <% wallets.forEach(wallet => { %>
-                        <option value="<%=wallet.address%>" class="selector-option"><%=wallet.title%></option>
-                    <% }) %>
-                </select></span>
+                <div class="window-header">
+                    <strong>Tilitapahtumat: </strong>
+                    <select id="address-selector">
+                        <% wallets.forEach(wallet => { %>
+
+                            <% if(selectedWallet && selectedWallet === wallet.address){ %>
+                                <option value="<%=wallet.address%>" class="selector-option" selected><%=wallet.title%></option>
+                            <% } else {%>
+                                <option value="<%=wallet.address%>" class="selector-option"><%=wallet.title%></option>
+                            <% } %>
+                        
+                        <% }) %>
+                    </select>
+                </div>
                 <%- include("../partials/events-table.ejs")%>
             </div>
 
@@ -38,9 +48,11 @@
                 //const addressSelector = document.querySelector('#address-selector');
                 const options = document.querySelectorAll('.selector-option');
                 options.forEach(option => {
+
+                    
                     option.addEventListener('click', () => {
                         console.log(option.value);
-                        location.assign(`/account?address=${option.value}`);
+                        location.assign(`/account?events=${option.value}`);
                     });
                 });
             </script>

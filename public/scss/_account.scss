@@ -22,6 +22,9 @@
 
     .window{
         height: 100%;
+        width: 100%;
+        max-height: 100vh;
+        overflow-y: scroll;
 
         #action-buttons{
             display: flex;

@@ -3,6 +3,7 @@ const router = express.Router();
 const database = require('../models/db');
 const checkAuthorization = require('../middleware/checkAuthorization').checkAuthorization;
 const generateAddress = require('../utils/utils').generateAddress;
+const calculateWalletBalance = require('../utils/utils').calculateWalletBalance;
 
 router.get('/', checkAuthorization, async (req, res) => {
     res.render('wallets/wallets.ejs', {
@@ -18,9 +19,14 @@ router.get('/new', checkAuthorization, async (req, res) => {
 });
 
 router.get('/delete', checkAuthorization, async (req, res) => {
+    const wallets = await database.getWallets(req.user.username);
+    for(let wallet of wallets){
+        wallet.balance = await calculateWalletBalance(wallet.address);
+    }
+
     res.render('wallets/delete.ejs', {
         title : 'Poista Maksuosoite',
-        wallets : await database.getWallets(req.user.username) || []
+        wallets : wallets || []
     });
 });
 

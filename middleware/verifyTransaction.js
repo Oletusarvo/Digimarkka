@@ -8,19 +8,19 @@ module.exports.verifyTransaction = async (req, res, next) => {
     const senderBalance = await utils.calculateWalletBalance(senderWallet.address);
 
     if(!senderWallet || !receiverWallet){
-        res.json({
+        res.status(401).send(JSON.stringify({
             message : 'Vastaanottajaa ei ole tai se on poistettu.'
-        });
+        }));
     }
     else if(senderWallet.address === receiverWallet.address){
-        res.json({
+        res.status(401).send(JSON.stringify({
             message : 'Vastaanottaja ei voi olla sama kuin lähettäjä!'
-        });
+        }));
     }
     else if(req.body.amount > senderBalance){
-        res.json({
+        res.status(401).send(JSON.stringify({
             message : 'Määrä ylittää tilin saldon!'
-        });
+        }));
     }
     else{
         const {sender, receiver, amount,  message} = req.body;

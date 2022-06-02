@@ -21,7 +21,15 @@ router.get('/', checkAuthorization, async (req, res) => {
 
     //Generate wallet events.
     let events = [];
-    const address = req.query.address;
+    let address = '';
+    if(req.query.events === '' || req.query.events == undefined){
+        address = wallets.find(wallet => wallet.default == true).address;
+    }
+    else{
+        address = req.query.events;
+    }
+    
+    
 
     if(typeof address === 'string' && address != ''){
         const wallet = await database.getWallet(address);
@@ -37,7 +45,8 @@ router.get('/', checkAuthorization, async (req, res) => {
         title: 'Tili',
         username : username,
         wallets : wallets || [],
-        events : events || []
+        events : events || [],
+        selectedWallet : address
 
     });
 });

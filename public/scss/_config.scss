@@ -86,7 +86,6 @@ body{
         height: 20px;
         width: 100vw;
         background: $secondary-color;
-
     }
 
     .content{
@@ -118,7 +117,10 @@ body{
         padding: 5px;
 
         
-
+        .window-header{
+            display: flex;
+            flex-flow: row;
+        }
         table{
             .align-right{
                 text-align: right;
