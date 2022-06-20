@@ -185,7 +185,8 @@ body{
     #register-content, 
     #delete-wallet-content, 
     #new-wallet-content,
-    #browse-wallets-content{
+    #browse-wallets-content,
+    #payment-internal-content{
         display: flex;
         flex-flow: column;
         align-items: center;

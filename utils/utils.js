@@ -42,18 +42,10 @@ module.exports.generateWalletEvents = async function(wallet){
 
 module.exports.calculateWalletBalance = async function(address){
     const recs = await database.getTransactions(address);
-    let balance = 0;
-    recs.forEach(rec => {
-        if(rec.sender === address){
-            balance -= rec.amount;
-        }
-
-        if(rec.receiver === address){
-            balance += rec.amount;
-        }
-    });
-
-    return balance;
+    return recs.reduce((acc, cur) => (
+        cur.sender === address ? acc - cur.amount : 
+        cur.receiver === address ? acc + cur.amount : 
+        acc), 0);
 }
 
 module.exports.calculateHash = function(data){

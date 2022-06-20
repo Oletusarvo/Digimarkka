@@ -77,7 +77,6 @@ module.exports.getWalletByTitle = async function(username, title){
     catch(err){
         throw err;
     }
-    
 }
 
 module.exports.getDefaultWallet = async function(username){
