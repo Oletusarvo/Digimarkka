@@ -31,7 +31,7 @@ router.get('/delete', checkAuthorization, async (req, res) => {
 });
 
 router.get('/browse', checkAuthorization, async (req, res) => {
-    const wallets = await database.getWallets(req.user.username);
+    const wallets = await database.getWalletByAddress(req.user.username);
     for(let wallet of wallets){
         wallet.balance = await calculateWalletBalance(wallet.address);
     }
@@ -43,7 +43,7 @@ router.get('/browse', checkAuthorization, async (req, res) => {
 });
 
 router.post('/delete', checkAuthorization, async (req, res) => {
-    const wallet = await database.getWallet(req.query.address);
+    const wallet = await database.getWalletByAddress(req.body.address);
 
     if(wallet){
         if(wallet.balance > 0){

@@ -11,7 +11,7 @@
             <div class="window">
                 <h1>Poista Maksuosoite</h1>
                 <div id="form">
-                    <form method="POST" action="/wallets" enctype="application/json">
+                    <form method="POST" action="/wallets/delete" enctype="application/json">
                         <label for="address">Osoitteesta:</label>
                         <select name="address">
                             <% wallets.forEach(wallet => { %>

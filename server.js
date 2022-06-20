@@ -3,6 +3,7 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const database = require('./models/db');
 const https = require('https');
+const fs = require('fs');
 
 app.use(express.static('node_modules'));
 app.use(express.static('public'));
@@ -14,9 +15,6 @@ app.set('views', './public/views/');
 app.set('view engine', 'ejs');
 
 const PORT = process.env.PORT || 3000;
-
-
-
 
 const genesisDate = new Date('2022-05-01');
 const mintName = 'MINT';
@@ -120,7 +118,12 @@ app.use('/payment', paymentRouter);
 const miningRouter = require('./routes/mine');
 app.use('/mine', miningRouter);
 
-const httpsServer = https.createServer(app);
-app.listen(PORT, () => console.log(`Listening on port ${PORT}...`));
+const options = {
+    key : fs.readFileSync('./key.pem'),
+    cert: fs.readFileSync('./cert.pem')
+}
+
+const httpsServer = https.createServer(options, app);
+httpsServer.listen(PORT, () => console.log(`Listening on port ${PORT}...`));
 
 

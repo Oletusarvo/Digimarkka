@@ -52,22 +52,3 @@ module.exports.calculateHash = function(data){
     let processedData = typeof data !== 'string' ? JSON.stringify(data) : data;
     return crypto.createHash('sha256').update(processedData).digest('hex');
 }
-
-module.exports.createTransaction = async function(utxo, receiver, amount){
-    utxo.sort((a, b) => {
-        if(a > b){
-            return -1;
-        }
-        else if(a == b){
-            return 0;
-        }
-        else{
-            return 1;
-        }
-    });
-
-    let outputs = [];
-    let outputsFound = false;
-
-
-}
