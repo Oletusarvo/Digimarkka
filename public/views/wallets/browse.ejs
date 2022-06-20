@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <%-include("../partials/head.ejs")%>
+
+    <body>
+        <%- include("../partials/opacity.ejs") %>
+        <%- include("../partials/header_in.ejs") %>
+
+        <div class="content" id="browse-wallets-content">
+            <h1>Maksuosoitteesi</h1>
+            <% wallets.forEach(wallet => { %>
+                <div class="window">
+                    <table>
+                        <tr>
+                            <td>Tunnus:</td><td class="align-right"><%=wallet.title%></td>
+                        </tr>
+
+                        <tr>
+                            <td>Osoite:</td><td class="align-right"><%=wallet.address%></td>
+                        </tr>
+
+                        <tr>
+                            <td>Saldo:</td><td class="align-right"><%=wallet.balance%>mk</td>
+                        </tr>
+                    </table>
+
+                    <div class="table-controls">
+                        <button type="submit" formaction="/wallets/delete?address=<%=wallet.address%>">Poista</button>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+
+        <%-include("../partials/footer.ejs")%>
+    </body>
+</html>

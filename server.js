@@ -2,6 +2,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const app = express();
 const database = require('./models/db');
+const https = require('https');
 
 app.use(express.static('node_modules'));
 app.use(express.static('public'));
@@ -14,7 +15,8 @@ app.set('view engine', 'ejs');
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => console.log(`Listening on port ${PORT}...`));
+
+
 
 const genesisDate = new Date('2022-05-01');
 const mintName = 'MINT';
@@ -90,7 +92,7 @@ app.get('/', async (req, res) => {
         circulation += mint.amount;
     });
 
-    res.render('index.ejs', {
+    res.render('index/index.ejs', {
         title: 'Etusivu',
         loggedIn : token,
         circulation
@@ -117,4 +119,8 @@ app.use('/payment', paymentRouter);
 
 const miningRouter = require('./routes/mine');
 app.use('/mine', miningRouter);
+
+const httpsServer = https.createServer(app);
+app.listen(PORT, () => console.log(`Listening on port ${PORT}...`));
+
 

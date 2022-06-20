@@ -5,12 +5,7 @@
     <body>
 
         <%-include("../partials/opacity.ejs")%>
-        <header>
-            <%- include("../partials/home-link.ejs")%>
-            <div id="header-buttons" class="header-sub-container">
-                <a href="/account">Takaisin</a>
-            </div>
-        </header>
+        <%- include("../partials/header_in.ejs") %>
 
         <div class="content" id="payment-content">
             <div class="window">
@@ -48,42 +43,28 @@
                     const form = document.querySelector('form');
                     form.addEventListener('submit', e => {
                         e.preventDefault();
-                        const tx = {
+                        const tx = JSON.stringify({
                             sender : form.sender.value,
                             receiver : form.receiver.value,
                             amount : form.amount.value,
                             password : form.password.value,
                             message : form.message.value
-                        };
+                        });
 
-                        //console.log(tx);
+                        const req = new XMLHttpRequest();
+                        req.open('POST', '/payment', true);
+                        req.setRequestHeader('Content-Type', 'application/json');
+                        req.send(tx);
 
-                        fetch('/payment', {
-                            method : 'POST',
-                            body : JSON.stringify(tx),
-                            headers : {
-                                'Content-Type' : 'application/json'
-                            }
-                        })
-                        .then(response => {
-                            if(!response.ok){
-                                throw new Error(response.status);
-                            }
-
-                            
-                            return response.json();
-                        })
-                        .then(json => {
-
-                            if(json.message == 'OK'){
+                        req.onload = () => {
+                            if(req.status == 200){
                                 location.assign('/account');
                             }
                             else{
-                                const err = json.message
-                                document.querySelector('.error-message').innerHTML = err;
+                                document.querySelector('.error-message').innerHTML = JSON.parse(req.response).message;
                             }
-                        });
-                    })
+                        }
+                    });
    
                 </script>
             </div>

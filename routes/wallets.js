@@ -30,8 +30,20 @@ router.get('/delete', checkAuthorization, async (req, res) => {
     });
 });
 
+router.get('/browse', checkAuthorization, async (req, res) => {
+    const wallets = await database.getWallets(req.user.username);
+    for(let wallet of wallets){
+        wallet.balance = await calculateWalletBalance(wallet.address);
+    }
+
+    res.render('wallets/browse.ejs', {
+        title : 'Selaa Maksuosoitteita',
+        wallets : wallets || []
+    });
+});
+
 router.post('/delete', checkAuthorization, async (req, res) => {
-    const wallet = await database.getWallet(req.body.address);
+    const wallet = await database.getWallet(req.query.address);
 
     if(wallet){
         if(wallet.balance > 0){

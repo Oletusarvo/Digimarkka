@@ -3,8 +3,8 @@ const jwt = require('jsonwebtoken');
 const utils = require('../utils/utils');
 
 module.exports.verifyTransaction = async (req, res, next) => {
-    const senderWallet = await database.getWallet(req.body.sender);
-    const receiverWallet = await database.getWallet(req.body.receiver);
+    const senderWallet = await database.getWalletByAddress(req.body.sender);
+    const receiverWallet = await database.getWalletByAddress(req.body.receiver);
     const senderBalance = await utils.calculateWalletBalance(senderWallet.address);
 
     if(!senderWallet || !receiverWallet){

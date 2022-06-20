@@ -1,9 +1,228 @@
-@import 'config';
-@import 'index';
-@import 'register';
-@import 'account';
-@import 'login';
-@import 'payment';
-@import 'new-wallet';
-@import 'wallets';
-@import 'mobile';
+$primary-color : #1ec73d;
+$button-color: rgb(0, 208, 0);
+$secondary-color : rgb(37, 37, 37);
+$text-color: rgb(92, 92, 92);
+
+$header-button-color : white;
+$button-text-color: $secondary-color;
+
+$button-border-radius: 10px;
+$default-gap: 1rem;
+$content-width: 600px;
+$ring-size : 600px;
+$ring-color : white;
+
+$button-lighten-amount: 10;
+$button-font-size: 1.5rem;
+
+*{
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
+h1, h2{
+    color: white;
+}
+
+a{
+    color: white;
+    text-decoration: none;
+}
+
+body{
+    display: flex;
+    flex-flow: column;
+
+    background: url("../img/background.bmp");
+    background-size: cover;
+    background-attachment: fixed;
+
+    height: 100vh;
+    width: 100vw;
+
+    padding: 0;
+    margin: 0;
+
+    /*HEADER*/
+    header{
+        width: 100%;
+        background: $secondary-color;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        padding: 1rem;
+        position: sticky;
+        top: 0;
+
+        a{
+            text-decoration: none;
+            color: white;
+        }
+
+        .register-link{
+            background: $primary-color;
+            border-radius: 10px;
+            padding: 1rem;
+
+            transition: background-color 0.3s ease-in;
+
+            &:hover{
+                background: lighten($primary-color, 10);
+            }
+        }
+
+        #page-nav, #login-nav{
+            display: flex;
+            flex-flow: row;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        #login-nav{
+            justify-content: right;
+        }
+    }
+
+    /*FOOTER*/
+    footer{
+        background: $secondary-color;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+    }
+
+    /*FORM*/
+    form{
+        display: flex;
+        flex-flow: column;
+        gap: 0.5rem;
+        border-radius: 10px;
+        color: white;
+
+        textarea{
+            resize: none;
+        }
+    }
+
+    /*CLOSE BUTTON*/
+    .close-button{
+        .button-line{
+            background: white;
+            width: 20px;
+            height: 5px;
+
+            &:nth-child(1){
+                transform: rotate(45deg);
+            }
+
+            &:nth-child(2){
+                transform: rotate(-45deg);
+            }
+        }
+    }
+
+    /*TABLE BUTTONS*/
+    .table-controls{
+        display: flex;
+        justify-content: right;
+        width: 100%;
+    }
+
+    /*WINDOW*/
+    .window{
+        background: rgba($secondary-color, 0.7);
+        border-radius: 10px;
+        color: white;
+        padding: 1rem;
+    }
+
+    /*TABLE*/
+    table{
+        width: 100%;
+
+        thead{
+            font-weight: bold;
+        }
+
+        td{
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .align-right{
+            text-align: right;
+        }
+    }
+
+    /*BG OPACITY*/
+    .background-opacity{
+        position: fixed;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+        background: rgba($primary-color, 0.2);
+    }
+
+    /*CONTENT*/
+    .content{
+        width: 100%;
+        flex: 1;
+        padding: 1rem;
+    }
+
+    #index-content{
+        text-align: right;
+        h1{
+            margin-right: 20vw;
+            margin-top: 25vh;
+        }
+    }
+
+    #login-content, 
+    #register-content, 
+    #delete-wallet-content, 
+    #new-wallet-content,
+    #browse-wallets-content{
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    #account-content{
+        display: grid;
+        grid-template-columns: 1fr 1fr 0.3fr;
+        gap: 1rem;
+
+        .default-wallet{
+            color: yellow;
+        }
+    }
+
+    #payment-content{
+        display: grid;
+        grid-template-columns: 0.5fr 1fr;
+        gap: 1rem;
+    }
+
+    
+}
+
+@media screen and (max-width: 1000px){
+
+    #account-content{
+        grid-template-columns: 1fr !important;
+        grid-template-rows: 0.3fr 0.3fr 0.3fr !important;
+    }
+
+    #payment-content{
+        grid-template-columns: 1fr !important;
+        grid-template-rows: 1fr 1fr !important;
+    }
+}
+
+
+

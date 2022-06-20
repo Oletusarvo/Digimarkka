@@ -20,25 +20,24 @@ router.get('/', checkAuthorization, async (req, res) => {
     }    
 
     //Generate wallet events.
+    const query = req.query.events;
     let events = [];
-    let address = '';
-    if(req.query.events === '' || req.query.events == undefined){
-        address = wallets.find(wallet => wallet.default == true).address;
-    }
-    else{
-        address = req.query.events;
-    }
-    
-    
 
-    if(typeof address === 'string' && address != ''){
-        const wallet = await database.getWallet(address);
-        events = await utils.generateWalletEvents(wallet);
+    for(const wallet of wallets){
+        const txs = await database.getTransactions(wallet.address);
+        txs.forEach(tx => tx = utils.formatEvent(tx, wallet));
+        events = events.concat(txs);
     }
-    else{
-        for(let wallet of wallets){
-            events = events.concat(await utils.generateWalletEvents(wallet));
-        }
+
+    if(query != undefined && query != ''){
+        events = events.filter(e => (
+            e.amount == query ||
+            e.sender_title == query ||
+            e.receiver_title == query ||
+            e.sender == query ||
+            e.receiver == query ||
+            e.timestamp == query
+        ));
     }
     
     res.render('account/account.ejs', {
@@ -46,7 +45,7 @@ router.get('/', checkAuthorization, async (req, res) => {
         username : username,
         wallets : wallets || [],
         events : events || [],
-        selectedWallet : address
+        loggedIn: true
 
     });
 });

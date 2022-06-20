@@ -4,44 +4,29 @@
     <body>
         <%- include("../partials/opacity.ejs") %>
 
-        <header>
-            <%- include("../partials/home-link") %>
-            <%- include("../partials/menu-button.ejs") %>
-
-            <div id="header-buttons" class="header-sub-container">
-                <a href="/logout">Kirjaudu ulos</a>
-            </div>
-        </header>
+        <%- include("../partials/header_in.ejs") %>
 
         <div class="content" id="account-content">
             <div class="window">
                 <div class="window-header">
                     <strong>Maksuosoitteet: </strong> <%=username%> 
                 </div>
-                <%- include("../partials/wallet-table.ejs") %>
+                <%- include("partials/wallet-table.ejs") %>
             </div>
 
             <div class="window">
                 <div class="window-header">
                     <strong>Tilitapahtumat: </strong>
-                    <select id="address-selector">
-                        <% wallets.forEach(wallet => { %>
-
-                            <% if(selectedWallet && selectedWallet === wallet.address){ %>
-                                <option value="<%=wallet.address%>" class="selector-option" selected><%=wallet.title%></option>
-                            <% } else {%>
-                                <option value="<%=wallet.address%>" class="selector-option"><%=wallet.title%></option>
-                            <% } %>
-                        
-                        <% }) %>
-                    </select>
+                    <form method="GET" action="/account">
+                        <input type="search" name="events" placeholder="Etsi">
+                    </form>
                 </div>
-                <%- include("../partials/events-table.ejs")%>
+                <%- include("partials/events-table.ejs")%>
             </div>
 
-            <div class="window">
+            <div class="window" id="account-actions-window">
                 <span><strong>Tilitoiminnot:</strong></span>
-                <%- include("../partials/account-actions.ejs")%>
+                <%- include("partials/account-actions.ejs")%>
             </div>
 
             <script>

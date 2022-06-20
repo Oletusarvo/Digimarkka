@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <%- include("../partials/head.ejs") %>
+
+    <body>
+        <%- include("../partials/opacity.ejs") %>
+
+        <% if(loggedIn) { %>
+            <%- include("../partials/header_in.ejs") %>
+       <% } else {%>
+            <%- include("../partials/header_out.ejs") %>
+        <% } %>
+        
+        
+        <div class="content" id="index-content">
+            <h1><%=circulation%> markkaa kiertää maailmaa.</h1>
+        </div>
+
+        <%- include("../partials/footer.ejs")%>
+    </body>
+
+
+</html>

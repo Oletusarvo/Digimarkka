@@ -1,13 +1,8 @@
 <!DOCTYPE html>
 <html>
     <%- include ("../partials/head") %>
-    <header>
-        <%- include("../partials/home-link")%>
-        <div id="header-buttons" class="header-sub-container">
-            <a href="/account">Takaisin</a>
-        </div>
-    </header>
-
+    <%- include ("../partials/header_in.ejs") %>
+    <%- include ("../partials/opacity.ejs") %>
     <body>
         <div class="content" id="new-wallet-content">
             <div class="window">
@@ -24,19 +19,23 @@
                 form.addEventListener('submit', async (e) => {
                     e.preventDefault();
 
-                    const res = await fetch('/wallets/new', {
-                        method: 'POST',
-                        body : JSON.stringify({
-                            title : form.title.value
-                        }),
-
-                        headers : {
-                            'Content-Type' : 'application/json'
-                        }
+                    const req = new XMLHttpRequest();
+                    req.open('POST', '/wallets/new', true);
+                    req.setRequestHeader('Content-Type', 'application/json');
+                    
+                    const body = JSON.stringify({
+                        title : form.title.value
                     });
 
-                    if(res.status == 200){
-                        location.assign('/account');
+                    req.send(body);
+
+                    req.onload = () => {
+                        if(req.status == 200){
+                            location.assign('/account');
+                        }
+                        else{
+                            console.log(req.status);
+                        }
                     }
                 });
 

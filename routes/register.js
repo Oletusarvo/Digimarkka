@@ -4,7 +4,7 @@ const database = require('../models/db');
 const bcrypt = require('bcrypt');
 
 router.get('/', (req, res) => {
-    res.render('register.ejs');
+    res.render('register/register.ejs');
 });
 
 router.post('/', async (req, res) => {
@@ -15,14 +15,14 @@ router.post('/', async (req, res) => {
     const users = await database.getUsers();
     if(users.find(item => item.username === req.body.username)){
 
-        res.render('register.ejs', {
+        res.render('register/register.ejs', {
             usernameError : 'Käyttäjänimi on jo olemassa!',
         });
     }
 
     //Check if passwords match
     if(password !== password2){
-        res.render('register.ejs', {
+        res.render('register/register.ejs', {
             passwordError : 'Salasanat eivät täsmää!'
         });
 

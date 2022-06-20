@@ -5,18 +5,14 @@
     <body>
         <%- include("../partials/opacity.ejs")%>
 
-        <header>
-            <%- include("../partials/home-link.ejs") %>
-
-            <%- include("../partials/header-back-button.ejs") %>
-            
-        </header>
+        <%- include("../partials/header_out.ejs") %>
 
         <div class="content" id="login-content">
             <div class="window">
-                <h1>Kirjaudu Sisään</h1>
+                
                 <div id="form-and-image">
                     <form>
+                        <h1>Kirjaudu Sisään</h1>
                         <label for="username">Käyttäjätunnus:</label>
                         <input name="username"></input>
                         <div class="input-error" id="username-error"><%= locals.usernameError %></div>
@@ -26,46 +22,43 @@
                         <div class="input-error" id="password-error"><%= locals.passwordError %></div>
                         <button type="submit">Lähetä</button>
                         
+                        <div id="links">
+                            <nav>
+                                <a href="/">Unohditko salasanasi?</a>
+                                <a href="/register">Ei tunnusta? Luo tili.</a>
+                            </nav>
+                        </div>
+
                     </form>
                     <div class="error-message"></div>
                 </div>
             
-                <div id="links">
-                    <nav>
-                        <a href="/">Unohditko salasanasi?</a>
-                        <a href="/register">Ei tunnusta? Luo tili.</a>
-                    </nav>
-                </div>
+                
 
                 <script>
                     const form = document.querySelector('form');
                     form.addEventListener('submit', async (e) => {
                         e.preventDefault();
 
-                        try{
-                            let res = await fetch('/login', {
-                                method : 'POST',
+                        const req = new XMLHttpRequest();
+                        req.open('POST', '/login', true);
+                        req.setRequestHeader('Content-Type', 'application/json');
 
-                                body : JSON.stringify({
-                                    username : form.username.value,
-                                    password : form.password.value
-                                }),
+                        const body = JSON.stringify({
+                            username : form.username.value,
+                            password : form.password.value
+                        });
 
-                                headers : {
-                                    'Content-Type' : 'application/json'
-                                }
-                            });
+                        req.send(body);
 
-                            if(res.status == 200){
-                                document.cookie = res.headers['cookies'];
+                        req.onload = () => {
+                            if(req.status == 200){
+                                document.cookie = req.getResponseHeader('cookies');
                                 location.assign('/account');
                             }
-                            
-
-                        }catch(error){
-                            console.log(error);
                         }
-                    })
+                    });
+                    
                 </script>
             </div>
         </div>

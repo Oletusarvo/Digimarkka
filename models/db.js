@@ -63,11 +63,21 @@ module.exports.getTransactions = async function(address = undefined){
 }
 
 module.exports.getWallets = async function(username = undefined){
-    return await username !== undefined ? db('wallets').where({username : username}) : db('wallets');
+    return username !== undefined ? await db('wallets').where({username : username}) : await db('wallets');
 }
 
-module.exports.getWallet = async function(address){
+module.exports.getWalletByAddress = async function(address){
     return await db('wallets').where({address}).first();
+}
+
+module.exports.getWalletByTitle = async function(username, title){
+    try{
+        return await db('wallets').where({username, title}).first();
+    }
+    catch(err){
+        throw err;
+    }
+    
 }
 
 module.exports.getDefaultWallet = async function(username){
