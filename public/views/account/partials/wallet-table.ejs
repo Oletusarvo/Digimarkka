@@ -1,8 +1,7 @@
 <table>
     <thead>
         <tr>
-            <td>Nimi</td>
-            <td class="align-right">Maksuosoite</td>
+            <td>Maksuosoite</td>
             <td class="align-right">Saldo</td>
         </tr>
     </thead>
@@ -10,8 +9,7 @@
     <tbody id="wallet-table">
         <% wallets.forEach(wallet => { %>
             <tr class="<%= wallet.default == true ? 'default-wallet' : ''%>">
-                <td><%=wallet.title%></td>
-                <td class="align-right"><%=wallet.address%></td>
+                <td><%=wallet.address%></td>
                 <td class="align-right" class="wide"><%=wallet.balance%>mk</td>
             </tr>
         <% })%>

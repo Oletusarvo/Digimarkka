@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const database = require('../models/db');
 const bcrypt = require('bcrypt');
+const utils = require('../utils/utils');
 
 router.get('/', (req, res) => {
     res.render('register/register.ejs');
@@ -14,19 +15,12 @@ router.post('/', async (req, res) => {
     //Check if user already exists
     const users = await database.getUsers();
     if(users.find(item => item.username === req.body.username)){
-
-        res.render('register/register.ejs', {
-            usernameError : 'Käyttäjänimi on jo olemassa!',
-        });
+        return res.status(409).send(`Tili käyttäjänimellä ${req.body.username} on jo olemassa!`);
     }
 
     //Check if passwords match
     if(password !== password2){
-        res.render('register/register.ejs', {
-            passwordError : 'Salasanat eivät täsmää!'
-        });
-
-        return;
+        return res.status(409).send('Salasanat eivät täsmää!');
     }
 
     try{
@@ -42,7 +36,7 @@ router.post('/', async (req, res) => {
 
         //Generate default wallet
         const wallet = {
-            address : generateAddress(64),
+            address : utils.generateAddress(64),
             title : 'Oletus',
             username : user.username,
             default : true
@@ -53,7 +47,7 @@ router.post('/', async (req, res) => {
         res.redirect('/');
     }
     catch(err){
-        res.sendStatus(500);
+        return res.sendStatus(500);
     }   
 });
 

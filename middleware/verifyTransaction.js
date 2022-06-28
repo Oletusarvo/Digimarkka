@@ -24,7 +24,7 @@ module.exports.verifyTransaction = async (req, res, next) => {
     }
     else{
         const {sender, receiver, amount,  message} = req.body;
-        req.tx = {sender, senderTitle : senderWallet.username,  receiver, receiverTitle : receiverWallet.title, amount, message, timestamp : new Date().toLocaleString('fi-FI')};
+        req.tx = {sender, senderTitle : senderWallet.username,  receiver, receiverTitle : receiverWallet.username, amount, message, timestamp : new Date().toLocaleString('fi-FI')};
         next();
     }
 }

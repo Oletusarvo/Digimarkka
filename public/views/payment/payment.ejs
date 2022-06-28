@@ -35,7 +35,7 @@
                         <button type="submit">Lähetä</button>
                     </form>
 
-                    <div class="error-message"></div>
+                    <div class="input-error" id="error-message"></div>
                 </div>
 
                 <script>
@@ -61,7 +61,7 @@
                                 location.assign('/account');
                             }
                             else{
-                                document.querySelector('.error-message').innerHTML = JSON.parse(req.response).message;
+                                document.querySelector('#error-message').innerHTML = JSON.parse(req.response).message;
                             }
                         }
                     });

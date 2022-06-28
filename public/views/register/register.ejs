@@ -21,28 +21,59 @@
 
                     <label for="username">*Käyttäjätunnus:</label>
                     <input name="username" required="true" placeholder="Valitse käyttäjätunnus"></input>
-                    <div class="input-error" id="username-error"><%= locals.usernameError %></div>
 
                     <label for="password">*Salasana:</label>
                     <input name="password" type="password" required="true" placeholder="Valitse salasana"></input>
 
                     <label for="password2">*Toista salasana:</label>
                     <input name="password2" type="password" required="true" placeholder="Syötä salasanasi uudelleen"></input>
-                    <div class="input-error" id="password-error"><%=locals.passwordError %></div>
+
                     <label for="sex">*Sukupuoli:</label>
-                    <select name="sex" required="true">
+                    <select name="sex" required="true" disabled="true">
                         <option>Mies</option>
                         <option>Nainen</option>
                     </select>
 
                     <label for="email">*Sähköposti:</label>
-                    <input name="email" required={true} placeholde="Syötä sähköpostiosoitteesi"></input>
+                    <input name="email" required={true} placeholde="Syötä sähköpostiosoitteesi" disabled="true"></input>
 
                     <label for="phone">Puh:</label>
-                    <input name="phone" type="tel" placeholder="Syötä puhelinnumerosi"></input>
+                    <input name="phone" type="tel" placeholder="Syötä puhelinnumerosi" disabled="true"></input>
 
                     <button type="submit">Lähetä</button>
+
+                    <div class="input-error" id="error-message"></div>
                 </form>
+
+                <script>
+                    const form = document.querySelector('form');
+                    form.addEventListener('submit', e => {
+                        e.preventDefault();
+
+                        const req = new XMLHttpRequest();
+                        req.open('POST', '/register', true);
+                        req.setRequestHeader('Content-Type', 'application/json');
+
+                        req.send(JSON.stringify({
+                            username : form.username.value,
+                            firstname : form.firstname.value,
+                            lastname : form.lastname.value,
+                            phone : form.phone.value,
+                            password : form.password.value,
+                            password2 : form.password2.value,
+                            sex : form.sex.value
+                        }));
+
+                        req.onload = () => {
+                            if(req.status === 200){
+                                location.assign('/');
+                            }
+                            else{
+                                document.querySelector('#error-message').innerHTML = req.response;
+                            }
+                        }
+                    })
+                </script>
             </div>
 
         </div>

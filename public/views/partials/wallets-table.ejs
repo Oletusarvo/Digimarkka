@@ -8,9 +8,7 @@
         <thead>
             <tr>
                 <td>Omistaja</td>
-                <td class="align-right">Tunnus</td>
                 <td class="align-right">Maksuosoite</td>
-                
             </tr>
         </thead>
 
@@ -18,7 +16,6 @@
             <% wallets.forEach(wallet => { %>
                 <tr>
                     <td><%=wallet.username%></td>
-                    <td class="align-right"><%=wallet.title%></td>
                     <td class="align-right"><%=wallet.address%></td>
                 </tr>
             <%})%>

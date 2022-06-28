@@ -65,7 +65,7 @@ router.post('/delete', checkAuthorization, async (req, res) => {
 router.post('/new', checkAuthorization, async (req, res) => {
     const user = req.user;
     //A new wallet will be set as default if the user does not have previous wallets.
-    const isDefault = (await database.getWallets(user.username)).length == 0 ? true : false;
+    const isDefault = (await database.getWallets(user.username)).length == 0;
 
     await database.addWallet({
         title : req.body.title,
